@@ -50,3 +50,77 @@ function isAuthorized(authorizedJob)
     end
     return false
 end
+
+function openMenu(spawnIndex)
+    local boatList = {}
+    for i = 1, #Config.boat do
+        if Config.boat[i].job then
+            if isAuthorized(Config.boat[i].job) then
+                for n = 1, #Config.boat[i].model do
+                    boatList[#boatList+1] = {
+                        spawnIndex = spawnIndex,
+                        model = Config.boat[i].model[n],
+                        modelIndex = n,
+                        boatIndex = i
+                    }
+                end
+            end
+        else
+            for n = 1, #Config.boat[i].model do
+                boatList[#boatList+1] = {
+                    spawnIndex = spawnIndex,
+                    model = Config.boat[i].model[n],
+                    modelIndex = n,
+                    boatIndex = i
+                }
+            end
+        end
+    end
+    
+    local options = {}
+    for i = 1, #boatList do
+        local model = joaat(boatList[i].model)                         
+        local carname = GetDisplayNameFromVehicleModel(model)
+        local vehicleName = GetLabelText(carname)   
+        options[#options+1] = {
+            title = vehicleName,
+            description = labelText("caution", comma_value(Config.caution)),
+            onSelect = function()
+                local money = lib.callback.await("boatRentals:checkMoney")
+                if type(money) == "string" then
+                    return ESX.ShowNotification(money, "error")
+                end
+                if not money then
+                    return ESX.ShowNotification(labelText("not_enough_money"), "error")
+                end
+                local data = {
+                    spawnIndex = boatList[i].spawnIndex,
+                    modelIndex = boatList[i].modelIndex,
+                    boatIndex = boatList[i].boatIndex
+                }
+                local result, plate = lib.callback.await("boatRentals:spawnRequest", false, data)
+                if type(result) == "string" then
+                    return ESX.ShowNotification(result, "error")
+                end
+                local entity = promise:new()
+                local coords = Config.spawn[data.spawnIndex]
+                ESX.Game.SpawnVehicle(model, coords, coords.w, function(veh)
+                    entity:resolve(veh)
+                end, true)
+                local vehicle = Citizen.Await(entity)
+                TaskWarpPedIntoVehicle(cache.ped, vehicle, -1)
+                SetVehicleNumberPlateText(vehicle, plate)
+                SetVehicleFuelLevel(vehicle, 100.0)
+                registered[plate] = true
+            end
+        }
+    end
+
+    lib.registerContext({
+        id = "boat_rental",
+        title = labelText("rent"),
+        options = options
+    })
+    
+    lib.showContext("boat_rental")
+end
