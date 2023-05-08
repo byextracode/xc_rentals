@@ -87,9 +87,11 @@ CreateThread(function()
 
     if Config.ped?.enable then
         local model = type(Config.ped?.model) == "number" and Config.ped?.model or joaat(Config.ped?.model)
-        RequestModel(model)
-        while not HasModelLoaded(model) do
-            Wait()
+        if not HasModelLoaded(model) then
+            RequestModel(model)
+            while not HasModelLoaded(model) do
+                Wait()
+            end
         end
         
         for i = 1, #Config.menu do
@@ -122,10 +124,6 @@ CreateThread(function()
             end
 
             function rental:onExit()
-                if textUI then
-                    textUI = false
-                    lib.hideTextUI()
-                end
                 if DoesEntityExist(ped) then
                     DeleteEntity(ped)
                 end
