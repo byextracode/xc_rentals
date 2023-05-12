@@ -4,8 +4,7 @@
 Provides vehicle rentals.
 
 ## Feature
-- Configurable caution fee.
-- Option to gives money back on vehicle return.
+- Configurable rental fee.
 - Configurable ped and blip.
 - Configurable vehicle model and job restriction.
 
