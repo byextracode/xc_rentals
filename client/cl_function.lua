@@ -51,62 +51,61 @@ function isAuthorized(authorizedJob)
     return false
 end
 
-function openMenu(spawnIndex)
-    local boatList = {}
-    for i = 1, #Config.boat do
-        if Config.boat[i].job then
-            if isAuthorized(Config.boat[i].job) then
-                for n = 1, #Config.boat[i].model do
-                    boatList[#boatList+1] = {
-                        spawnIndex = spawnIndex,
-                        model = Config.boat[i].model[n],
-                        modelIndex = n,
-                        boatIndex = i
-                    }
-                end
-            end
-        else
-            for n = 1, #Config.boat[i].model do
-                boatList[#boatList+1] = {
-                    spawnIndex = spawnIndex,
-                    model = Config.boat[i].model[n],
-                    modelIndex = n,
-                    boatIndex = i
+function openMenu(index)
+    local vehicleList = {}
+    local library = Config.location[index]
+    for i = 1, #library.vehicle do
+        if library.vehicle[i].job then
+            if isAuthorized(library.vehicle[i].job) then
+                vehicleList[#vehicleList+1] = {
+                    index = index,
+                    model = library.vehicle[i].model,
+                    modelIndex = i,
+                    fee = library.vehicle[i].fee,
                 }
             end
+        else
+            vehicleList[#vehicleList+1] = {
+                index = index,
+                model = library.vehicle[i].model,
+                modelIndex = i,
+                fee = library.vehicle[i].fee,
+            }
         end
     end
     
     local options = {}
-    for i = 1, #boatList do
-        local model = joaat(boatList[i].model)                         
+    for i = 1, #vehicleList do
+        local model = joaat(vehicleList[i].model)                         
         local carname = GetDisplayNameFromVehicleModel(model)
         local vehicleName = GetLabelText(carname)   
         options[#options+1] = {
-            title = vehicleName,
-            description = labelText("caution", comma_value(Config.caution)),
+            title = (#options+1).." - "..vehicleName,
+            description = labelText("caution", comma_value(vehicleList[i].fee)),
             onSelect = function()
-                local money = lib.callback.await("boatRentals:checkMoney")
+                local data = {
+                    index = vehicleList[i].index,
+                    modelIndex = vehicleList[i].modelIndex
+                }
+                local money = lib.callback.await("vehicleRentals:checkMoney", false, data)
                 if type(money) == "string" then
                     return ESX.ShowNotification(money, "error")
                 end
                 if not money then
                     return ESX.ShowNotification(labelText("not_enough_money"), "error")
                 end
-                local data = {
-                    spawnIndex = boatList[i].spawnIndex,
-                    modelIndex = boatList[i].modelIndex,
-                    boatIndex = boatList[i].boatIndex
-                }
-                local result, plate = lib.callback.await("boatRentals:spawnRequest", false, data)
+
+                local result, plate = lib.callback.await("vehicleRentals:spawnRequest", false, data)
                 if type(result) == "string" then
                     return ESX.ShowNotification(result, "error")
                 end
+
                 local entity = promise:new()
-                local coords = Config.spawn[data.spawnIndex]
+                local coords = Config.location[index].spawn
                 ESX.Game.SpawnVehicle(model, coords, coords.w, function(veh)
                     entity:resolve(veh)
                 end, true)
+
                 local vehicle = Citizen.Await(entity)
                 TaskWarpPedIntoVehicle(cache.ped, vehicle, -1)
                 SetVehicleNumberPlateText(vehicle, plate)
@@ -117,10 +116,10 @@ function openMenu(spawnIndex)
     end
 
     lib.registerContext({
-        id = "boat_rental",
+        id = "vehicle_rental",
         title = labelText("rent"),
         options = options
     })
     
-    lib.showContext("boat_rental")
+    lib.showContext("vehicle_rental")
 end

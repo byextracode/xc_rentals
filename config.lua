@@ -2,77 +2,108 @@ Config  = {}
 
 Config.Locale = "en"
 
-Config.caution = 5000
+Config.target = true -- only ox_target compatible
 
-Config.menu = {
-    vector4(-721.22, -1325.84, 1.6, 321.43),
-    vector4(833.93, -3349.9, 5.9, 4.75),
-    vector4(-1608.58, 5260.5, 3.97, 116.41),
-    vector4(-278.37, 6620.32, 7.54, 39.82),
-    vector4(3373.35, 5183.66, 1.46, 81.89),
-    vector4(2818.99, -671.68, 1.18, 259.84),
-    vector4(-1799.56, -1224.81, 1.59, 143.14),
-    vector4(1301.27, 4216.7, 33.91, 76.78),
-    vector4(4898.38, -5168.95, 2.46, 155.64),
-    vector4(3835.75, -43.96, 2.28, 268.74),
-}
-
-Config.spawn = {
-    vector4(-711.79, -1336.29, -0.31, 132.96),
-    vector4(833.7, -3362.4, -0.08, 103.3),
-    vector4(-1596.16, 5269.42, -0.24, 39.88),
-    vector4(-298.93, 6620.16, -0.51, 30.26),
-    vector4(3387.61, 5198.89, -0.76, 321.66),
-    vector4(2857.12, -675.11, -0.47, 251.41),
-    vector4(-1786.14, -1246.84, -0.52, 121.1),
-    vector4(1275.89, 4214.15, 29.11, 180.42),
-    vector4(4900.5, -5150.76, -0.25, 82.2),
-    vector4(3833.93, -61.08, 0.1, 85.74),
-}
-
-Config.ped = {
-    enable = true,
-    model = "cs_beverly"
-}
-
-Config.blip = {
-    enable = true,
-    sprite = 427,
-    scale = 0.6,
-    color = 4
-}
-
-Config.boat = {
+Config.location = {
     {
-        model = {
-            "dinghy4",
-            "marquis",
-            "seashark",
-            "seashark3",
-            "speeder",
+        menu = vector4(-721.22, -1325.84, 1.6, 321.43), -- menu access location
+        spawn = vector4(-711.79, -1336.29, -0.31, 132.96), -- spawned vehicle location
+        distance = 50.0,
+        blip = { -- blip in location (optional)
+            label = "Boat Rental",
+            sprite = 427, -- blip configuration for current location
+            scale = 0.6,
+            color = 4
+        },
+        ped = { -- if Config.target = true
+            model = "cs_beverly" -- ped model
+        },
+        marker = { -- if Config.target = false
+            type = 24,
+            scale = 0.5
+        },
+        vehicle = {
+            { 
+                model = "seashark", -- vehicle model
+                fee = 1000 -- rental fee
+            },
+            { 
+                model = "speeder",
+                fee = 1000
+            },
+            {
+                model = "seashark2",
+                fee = 2000,
+                job = "mechanic" -- job restriction (optional) could be string or table (array, hash or mixed).
+            },
+            {
+                model = "seashark3",
+                fee = 3000,
+                job = { -- table array example
+                    "mechanic",
+                    "ambulance"
+                }
+            },
+            {
+                model = "longfin",
+                fee = 5000,
+                job = { -- table hash example, value is job grade.
+                    ["mechanic"] = 1,
+                    ["ambulance"] = 2,
+                }
+            },
+            {
+                model = "squalo",
+                fee = 5000,
+                job = { -- table mixed example
+                    ["mechanic"] = 0,
+                    "ambulance"
+                }
+            },
         }
     },
     {
-        job = "police",
-        model = {
-            "seashark2"
+        menu = vector4(-721.34, -1301.31, 5.1, 50.91),
+        spawn = vector4(-724.73, -1294.29, 5.0, 49.63),
+        distance = 50.0,
+        blip = { -- blip in location (optional)
+            label = "Public Rental",
+            sprite = 185, -- blip configuration for current location
+            scale = 0.6,
+            color = 5
+        },
+        ped = { -- if Config.target = true
+            model = "cs_beverly"
+        },
+        marker = { -- if Config.target = false
+            type = 3,
+            scale = 1.0
+        },
+        vehicle = {
+            {
+                model = "bmx",
+                fee = 1000
+            },
+            {
+                model = "scorcher",
+                fee = 2000
+            },
+            {
+                model = "tribike3",
+                fee = 3000
+            },
+            {
+                model = "double",
+                fee = 30000
+            },
+            {
+                model = "asea",
+                fee = 100000
+            }
         }
     },
-    {
-        job = "ambulance",
-        model = {
-            "longfin"
-        }
-    },
-    {
-        job = "mechanic",
-        model = {
-            "longfin"
-        }
-    },
+    -- could add more locations
 }
-
-Config.returnmoney = false
 
 Config.translation = {
     ["en"] = {

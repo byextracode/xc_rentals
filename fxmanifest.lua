@@ -3,7 +3,7 @@ lua54 "yes"
 game "gta5"
 
 name "xc_rentals"
-version "1.0.0"
+version "2.0.0"
 description "Vehicle rentals"
 author "wibowo#7184"
 
@@ -19,4 +19,5 @@ server_script "**/sv_*.lua"
 dependencies {
     "es_extended",
     "ox_lib",
+    -- "ox_target", -- optional
 }

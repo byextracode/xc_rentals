@@ -1,7 +1,7 @@
 # xc_rentals
 
 ## Description
-Provides vehicle rentals (e.g. boat, etc.)
+Provides vehicle rentals.
 
 ## Feature
 - Configurable caution fee.
@@ -18,6 +18,7 @@ Coming soon
 ## Requirement
 - ESX
 - [ox_lib](https://github.com/overextended/ox_lib)
+- [ox_target](https://github.com/overextended/ox_target) (optional)
 
 # Legal
 
