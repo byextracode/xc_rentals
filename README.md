@@ -9,8 +9,8 @@ Provides vehicle rentals.
 - Configurable vehicle model and job restriction.
 
 ## Preview
-- [Config.target = true (using ox_target)](https://streamable.com/n58jhj)
-- [Config.target = false](https://streamable.com/9hrkd6)
+- [Preview 1](https://streamable.com/n58jhj) (using ox_target)
+- [Preview 2](https://streamable.com/9hrkd6)
 
 ## Framework
 - ESX
