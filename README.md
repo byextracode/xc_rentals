@@ -8,8 +8,9 @@ Provides vehicle rentals.
 - Configurable ped and blip.
 - Configurable vehicle model and job restriction.
 
-- Preview
-Coming soon
+## Preview
+- [Config.target = true (using ox_target)](https://streamable.com/n58jhj)
+- [Config.target = false](https://streamable.com/9hrkd6)
 
 ## Framework
 - ESX
