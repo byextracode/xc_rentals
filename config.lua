@@ -25,19 +25,23 @@ Config.location = {
         vehicle = {
             { 
                 model = "seashark", -- vehicle model
+                image = "https://gtacars.net/images/da9ab09a97da964b5fc2e94bf8388ce5", -- image url (optional)
                 fee = 1000 -- rental fee
             },
             { 
                 model = "speeder",
+                image = "https://gtacars.net/images/463f92dc32f7b83b0580f80f060ba903",
                 fee = 1000
             },
             {
                 model = "seashark2",
+                image = "https://gtacars.net/images/99289d92396eda3d66da8696e81da36e",
                 fee = 2000,
                 job = "mechanic" -- job restriction (optional) could be string or table (array, hash or mixed).
             },
             {
                 model = "seashark3",
+                image = "https://gtacars.net/images/b07e397ea05f349daa543485db7b4dd8",
                 fee = 3000,
                 job = { -- table array example
                     "mechanic",
@@ -82,6 +86,7 @@ Config.location = {
         vehicle = {
             {
                 model = "bmx",
+                image = "https://gtacars.net/images/4596bd7f7aab3d7e1d537ea929b239e4",
                 fee = 1000
             },
             {
@@ -94,10 +99,12 @@ Config.location = {
             },
             {
                 model = "double",
+                image = "https://gtacars.net/images/389fcc1d7919c02d204d768234e67c34",
                 fee = 30000
             },
             {
                 model = "asea",
+                image = "https://gtacars.net/images/9be5429b46e633feaed1d00d2bed6aa6",
                 fee = 100000
             }
         }

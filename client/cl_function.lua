@@ -62,6 +62,7 @@ function openMenu(index)
                     model = library.vehicle[i].model,
                     modelIndex = i,
                     fee = library.vehicle[i].fee,
+                    image = library.vehicle[i].image
                 }
             end
         else
@@ -70,18 +71,22 @@ function openMenu(index)
                 model = library.vehicle[i].model,
                 modelIndex = i,
                 fee = library.vehicle[i].fee,
+                image = library.vehicle[i].image
             }
         end
     end
     
     local options = {}
     for i = 1, #vehicleList do
-        local model = joaat(vehicleList[i].model)                         
+        local model = joaat(vehicleList[i].model)
         local carname = GetDisplayNameFromVehicleModel(model)
-        local vehicleName = GetLabelText(carname)   
+        local vehicleName = GetLabelText(carname)
+        local seats = GetVehicleModelNumberOfSeats(model)
         options[#options+1] = {
             title = (#options+1).." - "..vehicleName,
             description = labelText("caution", comma_value(vehicleList[i].fee)),
+            image = vehicleList[i].image,
+            metadata = vehicleList[i].image and { ("Seats: %s"):format(seats) } or { "No preview", ("Seats: %s"):format(seats) },
             onSelect = function()
                 local data = {
                     index = vehicleList[i].index,
