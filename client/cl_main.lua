@@ -98,7 +98,6 @@ CreateThread(function()
             EndTextCommandSetBlipName(blip)
         end
 
-        
         if Config.target and Config.location[i].ped then
             local model = type(Config.location[i].ped.model) == "number" and Config.location[i].ped.model or joaat(Config.location[i].ped.model)
             if not HasModelLoaded(model) then

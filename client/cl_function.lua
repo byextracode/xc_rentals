@@ -11,7 +11,7 @@ function labelText(text, ...)
     if library[text] == nil then
         return ("Translation [%s][%s] does not exist"):format(Config.Locale, text)
     end
-    return library[text]:format(...) 
+    return library[text]:format(...)
 end
 
 function isAuthorized(authorizedJob)
@@ -75,7 +75,7 @@ function openMenu(index)
             }
         end
     end
-    
+
     local options = {}
     for i = 1, #vehicleList do
         local model = joaat(vehicleList[i].model)
@@ -125,6 +125,6 @@ function openMenu(index)
         title = labelText("rent"),
         options = options
     })
-    
+
     lib.showContext("vehicle_rental")
 end

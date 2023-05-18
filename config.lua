@@ -23,12 +23,12 @@ Config.location = {
             scale = 0.5
         },
         vehicle = {
-            { 
+            {
                 model = "seashark", -- vehicle model
                 image = "https://gtacars.net/images/da9ab09a97da964b5fc2e94bf8388ce5", -- image url (optional)
                 fee = 1000 -- rental fee
             },
-            { 
+            {
                 model = "speeder",
                 image = "https://gtacars.net/images/463f92dc32f7b83b0580f80f060ba903",
                 fee = 1000
