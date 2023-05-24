@@ -7,10 +7,12 @@ Provides vehicle rentals.
 - Configurable rental fee.
 - Configurable ped and blip.
 - Configurable vehicle model and job restriction.
+- Configurable vehicle image preview and seat count information.
 
 ## Preview
 - [Preview 1](https://streamable.com/n58jhj) (using ox_target)
 - [Preview 2](https://streamable.com/9hrkd6)
+- [Preview 3](https://i.imgur.com/gQtR7Vw.png) (UPDATE MAY 15, 2023)
 
 ## Framework
 - ESX
