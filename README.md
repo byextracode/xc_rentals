@@ -10,15 +10,18 @@ Provides vehicle rentals.
 - Configurable vehicle image preview and seat count information.
 
 ## Preview
-- [Preview 1](https://streamable.com/n58jhj) (using ox_target)
-- [Preview 2](https://streamable.com/9hrkd6)
-- [Preview 3](https://i.imgur.com/gQtR7Vw.png) (UPDATE MAY 15, 2023)
+- Preview 1 (using ox_target)
+[![Preview 1](https://i.imgur.com/uSpH664.png)](https://streamable.com/n58jhj)
+- Preview 2
+[![Preview 2](https://i.imgur.com/xSaCbjO.png)](https://streamable.com/9hrkd6)
+- Preview 3 (UPDATE MAY 15, 2023)
+![Preview 3](https://i.imgur.com/gQtR7Vw.png)
 
 ## Framework
-- ESX
+- ESX/QBCore
 
 ## Requirement
-- ESX
+- [ESX](https://github.com/esx-framework/esx_core) / [QBCore](https://github.com/qbcore-framework/qb-core)
 - [ox_lib](https://github.com/overextended/ox_lib)
 - [ox_target](https://github.com/overextended/ox_target) (optional)
 
