@@ -1,6 +1,8 @@
 Config  = {}
 Config.translation = {}
 
+Config.versionCheck = true -- check for updates
+
 Config.Locale = "en"
 
 Config.target = true -- only ox_target compatible
