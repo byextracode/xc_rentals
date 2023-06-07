@@ -1,4 +1,5 @@
 Config  = {}
+Config.translation = {}
 
 Config.Locale = "en"
 
@@ -110,16 +111,4 @@ Config.location = {
         }
     },
     -- could add more locations
-}
-
-Config.translation = {
-    ["en"] = {
-        ["someone_veh"] = "Not your rented vehicle!",
-        ["err"] = "Error",
-        ["caution"] = "Fee: $%s",
-        ["not_enough_money"] = "Not enough money",
-        ["rent"] = "Rent",
-        ["blip_label"] = "Rentals",
-        ["return_vehicle"] = "Return vehicle",
-    }
 }

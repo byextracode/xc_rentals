@@ -14,42 +14,7 @@ function labelText(text, ...)
     return library[text]:format(...)
 end
 
-function isAuthorized(authorizedJob)
-    while ESX == nil do
-        Wait()
-    end
-    while not ESX.PlayerLoaded do
-        Wait()
-    end
-    if type(authorizedJob) ~= "table" then
-        authorizedJob = {authorizedJob}
-    end
-    local tabletype = table.type(authorizedJob)
-    if tabletype == "hash" then
-        local grade = authorizedJob[ESX.PlayerData.job.name]
-        if grade and grade <= ESX.PlayerData.job.grade then
-            return true
-        end
-    end
-    if tabletype == "mixed" then
-        if authorizedJob[ESX.PlayerData.job.name] then
-            return authorizedJob[ESX.PlayerData.job.name] <= ESX.PlayerData.job.grade
-        end
-        for index, value in pairs(authorizedJob) do
-            if value == ESX.PlayerData.job.name then
-                return true
-            end
-        end
-    end
-    if tabletype == "array" then
-        for i = 1, #authorizedJob do
-            if ESX.PlayerData.job.name == authorizedJob[i] then
-                return true
-            end
-        end
-    end
-    return false
-end
+
 
 function openMenu(index)
     local vehicleList = {}
@@ -86,7 +51,7 @@ function openMenu(index)
             title = (#options+1).." - "..vehicleName,
             description = labelText("caution", comma_value(vehicleList[i].fee)),
             image = vehicleList[i].image,
-            metadata = vehicleList[i].image and { ("Seats: %s"):format(seats) } or { "No preview", ("Seats: %s"):format(seats) },
+            metadata = vehicleList[i].image and { labelText("seat", seats) } or { labelText("no_preview"), labelText("seat", seats) },
             onSelect = function()
                 local data = {
                     index = vehicleList[i].index,
@@ -94,24 +59,52 @@ function openMenu(index)
                 }
                 local money = lib.callback.await("vehicleRentals:checkMoney", false, data)
                 if type(money) == "string" then
-                    return ESX.ShowNotification(money, "error")
+                    lib.notify({
+                        title = labelText("err"),
+                        description = money,
+                        position = 'top',
+                        style = {
+                            backgroundColor = '#141517',
+                            color = '#909296'
+                        },
+                        icon = 'ban',
+                        iconColor = '#C53030'
+                    })
+                    return
                 end
                 if not money then
-                    return ESX.ShowNotification(labelText("not_enough_money"), "error")
+                    lib.notify({
+                        title = labelText("err"),
+                        description = labelText("not_enough_money"),
+                        position = 'top',
+                        style = {
+                            backgroundColor = '#141517',
+                            color = '#909296'
+                        },
+                        icon = 'ban',
+                        iconColor = '#C53030'
+                    })
+                    return
                 end
 
                 local result, plate = lib.callback.await("vehicleRentals:spawnRequest", false, data)
                 if type(result) == "string" then
-                    return ESX.ShowNotification(result, "error")
+                    lib.notify({
+                        title = labelText("err"),
+                        description = result,
+                        position = 'top',
+                        style = {
+                            backgroundColor = '#141517',
+                            color = '#909296'
+                        },
+                        icon = 'ban',
+                        iconColor = '#C53030'
+                    })
+                    return
                 end
 
-                local entity = promise:new()
                 local coords = Config.location[index].spawn
-                ESX.Game.SpawnVehicle(model, coords, coords.w, function(veh)
-                    entity:resolve(veh)
-                end, true)
-
-                local vehicle = Citizen.Await(entity)
+                local vehicle = spawnVehicle(model, coords)
                 TaskWarpPedIntoVehicle(cache.ped, vehicle, -1)
                 SetVehicleNumberPlateText(vehicle, plate)
                 SetVehicleFuelLevel(vehicle, 100.0)

@@ -24,7 +24,18 @@ RegisterNetEvent("vehicle:return", function(data)
 
     local plate = GetVehicleNumberPlateText(vehicle)
     if not registered[plate] then
-        return ESX.ShowNotification(labelText("someone_veh"), "error")
+        lib.notify({
+            title = labelText("err"),
+            description = labelText("someone_veh"),
+            position = 'top',
+            style = {
+                backgroundColor = '#141517',
+                color = '#909296'
+            },
+            icon = 'ban',
+            iconColor = '#C53030'
+        })
+        return
     end
 
     local returnData = {
@@ -32,7 +43,18 @@ RegisterNetEvent("vehicle:return", function(data)
     }
     local result = lib.callback.await("vehicleRentals:vehicleReturn", false, returnData)
     if not result then
-        return ESX.ShowNotification(labelText("err"), "error")
+        lib.notify({
+            title = labelText("err"),
+            description = labelText("data_error"),
+            position = 'top',
+            style = {
+                backgroundColor = '#141517',
+                color = '#909296'
+            },
+            icon = 'ban',
+            iconColor = '#C53030'
+        })
+        return
     end
 
     local coords = data.coords
@@ -49,10 +71,6 @@ RegisterNetEvent("vehicle:return", function(data)
 end)
 
 CreateThread(function()
-    while not ESX.PlayerLoaded do
-        Wait(100)
-    end
-
     local allvehicle = {}
     local inserted = {}
 

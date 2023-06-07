@@ -1,47 +1,47 @@
 local registered = {}
 
 lib.callback.register("vehicleRentals:checkMoney", function(source, data)
-    local xPlayer = ESX.GetPlayerFromId(source)
-    if not xPlayer then
-        return "error"
+    local Player = GetPlayerData(source)
+    if not Player then
+        return labelText("player_error")
     end
     if data?.index == nil then
-        return "error #2"
+        return labelText("data_error")
     end
     if data?.modelIndex == nil then
-        return "error #3"
+        return labelText("data_error")
     end
     if Config.location[data.index] == nil then
-        return "error #4"
+        return labelText("data_error")
     end
     if Config.location[data.index].vehicle[data.modelIndex] == nil then
-        return "error #5"
+        return labelText("data_error")
     end
     local fee = Config.location[data.index].vehicle[data.modelIndex].fee
-    return xPlayer.getMoney() >= fee
+    return Player.GetMoney("money") >= fee
 end)
 
 lib.callback.register("vehicleRentals:spawnRequest", function(source, data)
-    local xPlayer = ESX.GetPlayerFromId(source)
-    if not xPlayer then
-        return "error #1"
+    local Player = GetPlayerData(source)
+    if not Player then
+        return labelText("player_error")
     end
     if data?.index == nil then
-        return "error #2"
+        return labelText("data_error")
     end
     if data?.modelIndex == nil then
-        return "error #3"
+        return labelText("data_error")
     end
     if Config.location[data.index] == nil then
-        return "error #4"
+        return labelText("data_error")
     end
     if Config.location[data.index].vehicle[data.modelIndex] == nil then
-        return "error #5"
+        return labelText("data_error")
     end
 
     local fee = Config.location[data.index].vehicle[data.modelIndex].fee
-    if xPlayer.getMoney() < fee then
-        return "error #6"
+    if Player.GetMoney("money") < fee then
+        return labelText("not_enough_money")
     end
 
     local plate = ("RENT %s"):format(math.random(100, 999))
@@ -49,15 +49,15 @@ lib.callback.register("vehicleRentals:spawnRequest", function(source, data)
 		plate = ("RENT %s"):format(math.random(100, 999))
 	end
     registered[plate] = {
-        identifier = xPlayer.identifier
+        identifier = Player.identifier
     }
-    xPlayer.removeMoney(fee)
+    Player.RemoveMoney("money", fee)
     return true, plate
 end)
 
 lib.callback.register("vehicleRentals:vehicleReturn", function(source, data)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	if not xPlayer then
+	local Player = GetPlayerData(source)
+	if not Player then
 		return false
 	end
 
@@ -70,7 +70,7 @@ lib.callback.register("vehicleRentals:vehicleReturn", function(source, data)
 	if not vehicle then
 		return false
 	end
-	if vehicle.identifier ~= xPlayer.identifier then
+	if vehicle.identifier ~= Player.identifier then
 		return false
 	end
 
@@ -80,12 +80,12 @@ end)
 
 lib.callback.register("vehicleRentals:getRegisteredVehicles", function(source)
     local vehicles = {}
-    local xPlayer = ESX.GetPlayerFromId(source)
-    if not xPlayer then
+    local Player = GetPlayerData(source)
+    if not Player then
         return vehicles
     end
     for k, v in pairs(registered) do
-        if v.identifier == xPlayer.identifier then
+        if v.identifier == Player.identifier then
             vehicles[k] = true
         end
     end
