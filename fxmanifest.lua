@@ -3,7 +3,7 @@ lua54 "yes"
 game "gta5"
 
 name "xc_rentals"
-version "2.0.0"
+version "2.0.1"
 description "Simple vehicle rentals"
 author "wibowo#7184"
 
