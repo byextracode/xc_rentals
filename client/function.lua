@@ -45,7 +45,8 @@ function openMenu(index)
     for i = 1, #vehicleList do
         local model = joaat(vehicleList[i].model)
         local carname = GetDisplayNameFromVehicleModel(model)
-        local vehicleName = GetLabelText(carname)
+        local carlabel = GetLabelText(carname)
+        local vehicleName = carlabel ~= "NULL" and carlabel or carname
         local seats = GetVehicleModelNumberOfSeats(model)
         options[#options+1] = {
             title = (#options+1).." - "..vehicleName,
